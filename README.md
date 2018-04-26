@@ -29,7 +29,7 @@ A simple website where you can share article.
 #### With only npm:
 
 ```
-npm install
-npm start
-
+npm install 
+npm start --> on server folder
+npm run serve --> on client folder
 ```
