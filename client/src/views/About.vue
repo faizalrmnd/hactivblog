@@ -20,6 +20,17 @@
         </div>
       </nav>
     </div>
+
+    <div>
+      <h4>Filter By Category:</h4>
+      <select class="filter form-control" v-model="category" id="exampleFormControlSelect1">
+        <option>Vacation</option>
+        <option>Horor</option>
+        <option>Comedy</option>
+      </select>
+      <button class="btn btn-primary" @click="filter" type="submit">Filter</button>
+      <br>
+    </div>
     <!-- Button trigger modal -->
     <button type="button" v-if="token === 'ada'" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
       Add Article
@@ -47,11 +58,15 @@
           </div>
           <div class="form-group">
             <label for="exampleFormControlSelect1">Category</label>
-            <select class="form-control" v-model="category" id="exampleFormControlSelect1">
+            <select class="filter form-control" v-model="category" id="exampleFormControlSelect1">
               <option>Vacation</option>
               <option>Horor</option>
               <option>Comedy</option>
             </select>
+          </div>
+          <div class="form-group">
+            <label for="exampleFormControlFile1">Input Photo</label>
+            <input type="file" id="image" class="form-control-file">
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -82,13 +97,26 @@ export default {
   },
   methods: {
     addArticle: function () {
-      let payload = {
-        title: this.title,
-        content: this.content,
-        category: this.category
-      }
+      // let payload = {
+      //   title: this.title,
+      //   content: this.content,
+      //   category: this.category
+      // }
+      const fileInput = document.querySelector('#image')
 
-      this.$store.dispatch('addQuestion', payload)
+      let payload = new FormData()
+
+      payload.append('image', fileInput.files[0])
+      payload.append('title', this.title)
+      payload.append('content', this.content)
+      payload.append('category', this.category)
+
+      this.$store.dispatch('addArticle', payload)
+    },
+    filter: function () {
+      let payload = this.category
+
+      this.$store.dispatch('filter', payload)
     }
   },
   created () {
@@ -101,6 +129,8 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+  .filter {
+    width: 300px;
+  }
 </style>

@@ -47,7 +47,8 @@ module.exports = {
         author: decoded.id,
         title: req.body.title,
         content: req.body.content,
-        category: req.body.category
+        category: req.body.category,
+        image: req.file.cloudStoragePublicUrl
       })
 
       newArticle.save((err, result) => {
@@ -65,8 +66,7 @@ module.exports = {
   editArticle: function (req, res) {
     articles.findByIdAndUpdate({ _id: req.params.id }, {
       title: req.body.title,
-      content: req.body.content,
-      category: req.body.category
+      content: req.body.content
     })
     .then(update => {
       res.status(200).json({

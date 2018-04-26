@@ -85,13 +85,36 @@ export default new Vuex.Store({
           console.log('error 3 ' + error)
         })
     },
-    addQuestion: function (context, payload) {
+    addArticle: function (context, payload) {
       let token = localStorage.getItem('token')
 
-      axios.post('http://localhost:3000/article/post', {
+      axios.post('http://localhost:3000/article/post', payload, { headers: { token: token } })
+        .then(function (response) {
+          // context.commit('setUser', response.data.user)
+          console.log(response)
+        })
+        .catch(function (error) {
+          console.log(error)
+        })
+    },
+    deleteArticle: function (context, payload) {
+      let token = localStorage.getItem('token')
+
+      axios
+        .delete(`http://localhost:3000/article/delete/${payload}`, { headers: { token: token } })
+        .then(response => {
+          console.log(JSON.stringify(response))
+        })
+        .catch((error) => {
+          console.log('error 3 ' + error)
+        })
+    },
+    editArticle: function (context, payload) {
+      let token = localStorage.getItem('token')
+
+      axios.put(`http://localhost:3000/article/edit/${payload.id}`, {
         title: payload.title,
-        content: payload.content,
-        category: payload.category
+        content: payload.content
       }, { headers: { token: token } })
         .then(function (response) {
           // context.commit('setUser', response.data.user)
@@ -99,6 +122,17 @@ export default new Vuex.Store({
         })
         .catch(function (error) {
           console.log(error)
+        })
+    },
+    filter: function (context, payload) {
+      axios
+        .get(`http://localhost:3000/article/by/${payload}`)
+        .then(response => {
+          console.log(JSON.stringify(response.data.data))
+          context.commit('setArticles', response.data.data)
+        })
+        .catch((error) => {
+          console.log('error 3 ' + error)
         })
     }
   }
