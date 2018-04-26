@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken');
 module.exports = {
   getAll: function (req, res) {
     articles.find({})
-      .populate('user')
+      .populate('author')
       .then(article => {
         res.status(200).json({
           data: article
@@ -14,7 +14,7 @@ module.exports = {
   },
   getOne: function (req, res) {
     articles.findById(req.params.id)
-      .populate('user')
+      .populate('author')
       .then(article => {
         res.status(200).json({
           data: article
@@ -23,7 +23,7 @@ module.exports = {
   },
   getByCategory: function (req, res) {
     articles.find({ category: req.params.category })
-    .populate('user')
+    .populate('author')
       .then(article => {
         res.status(200).json({
           data: article
@@ -32,7 +32,7 @@ module.exports = {
   },
   getByAuthor: function (req, res) {
     articles.find({ category: req.body.author })
-    .populate('user')
+    .populate('author')
       .then(article => {
         res.status(200).json({
           data: article
