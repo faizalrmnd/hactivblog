@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="row mx-0">
+    <!-- <div class="row mx-0">
       <nav class="navbar navbar-expand-lg navbar-dark bg-primary col-12 px-5">
 
         <a class="navbar-brand" href="#">Hactivblog!</a>
@@ -19,7 +19,8 @@
           </ul>
         </div>
       </nav>
-    </div>
+    </div> -->
+    <navbar/>
 
     <div>
       <h4>Filter By Category:</h4>
@@ -81,11 +82,13 @@
 
 <script>
 import ArticleList from '@/components/ArticleList.vue'
+import navbar from '@/components/NavBar.vue'
 
 export default {
   name: 'questions',
   components: {
-    ArticleList
+    ArticleList,
+    navbar
   },
   data () {
     return {

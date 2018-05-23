@@ -12,7 +12,7 @@ const articleRouter = require('./routes/articles');
 const app = express();
 app.use(cors())
 
-mongoose.connect('mongodb://localhost:27017/hactivblog');
+mongoose.connect('mongodb://faizal:faizaldb@ds133360.mlab.com:33360/blogdb');
 
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
