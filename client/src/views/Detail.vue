@@ -1,25 +1,6 @@
 <template>
   <div>
-    <div class="row mx-0">
-      <nav class="navbar navbar-expand-lg navbar-dark bg-primary col-12 px-5">
-
-        <a class="navbar-brand" href="#">Hactivblog!</a>
-
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-              <a class="nav-link" href="#">Home</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Main</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">About</a>
-            </li>
-          </ul>
-        </div>
-      </nav>
-    </div>
+    <navbar/>
     <!-- {{ article }} -->
     <br>
     <!-- Button trigger modal -->
@@ -67,9 +48,13 @@
 
 <script>
 import { mapState } from 'vuex'
+import navbar from '@/components/NavBar.vue'
 
 export default {
   name: 'detail',
+  components: {
+    navbar
+  },
   data () {
     return {
       whosloggedin: '',
@@ -92,7 +77,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(['article']),
+    ...mapState(['article'])
   },
   created () {
     let user = localStorage.getItem('username')

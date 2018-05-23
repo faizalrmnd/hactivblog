@@ -78,6 +78,9 @@ export default {
         .then((login) => {
           this.$router.push('/about')
         })
+        .catch((error) => {
+          alert('email atau pasword salah!')
+        })
     }
   },
   created () {

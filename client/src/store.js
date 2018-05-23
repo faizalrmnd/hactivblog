@@ -34,38 +34,46 @@ export default new Vuex.Store({
   },
   actions: {
     register: function (context, payload) {
-      console.log('masuk')
-      axios.post('http://localhost:3000/register', {
-        username: payload.username,
-        name: payload.name,
-        password: payload.password
+      return new Promise((resolve, reject) => {
+        console.log('masuk')
+        axios.post('http://35.197.150.118/register', {
+          username: payload.username,
+          name: payload.name,
+          password: payload.password
+        })
+          .then(function (response) {
+            localStorage.setItem('username', payload.username)
+            localStorage.setItem('token', response.data.token)
+            context.commit('setUser', payload)
+            resolve()
+          })
+          .catch(function (error) {
+            console.log(error)
+            reject(error)
+          })
       })
-        .then(function (response) {
-          localStorage.setItem('username', payload.username)
-          localStorage.setItem('token', response.data.token)
-          context.commit('setUser', payload)
-        })
-        .catch(function (error) {
-          console.log(error)
-        })
     },
     login: function (context, payload) {
-      axios.post('http://localhost:3000/login', {
-        username: payload.username,
-        password: payload.password
+      return new Promise((resolve, reject) => {
+        axios.post('http://35.197.150.118/login', {
+          username: payload.username,
+          password: payload.password
+        })
+          .then(function (response) {
+            localStorage.setItem('username', payload.username)
+            localStorage.setItem('token', response.data.token)
+            // console.log(response.data.token)
+            resolve()
+          })
+          .catch(function (error) {
+            console.log(error)
+            reject(error)
+          })
       })
-        .then(function (response) {
-          localStorage.setItem('username', payload.username)
-          localStorage.setItem('token', response.data.token)
-          // console.log(response.data.token)
-        })
-        .catch(function (error) {
-          console.log(error)
-        })
     },
     getArticles: function (context) {
       axios
-        .get('http://localhost:3000/article')
+        .get('http://35.197.150.118/article')
         .then(response => {
           console.log(JSON.stringify(response.data.data))
           context.commit('setArticles', response.data.data)
@@ -76,7 +84,7 @@ export default new Vuex.Store({
     },
     getArticleDetail: function (context, payload) {
       axios
-        .get(`http://localhost:3000/article/${payload}`)
+        .get(`http://35.197.150.118/article/${payload}`)
         .then(response => {
           console.log(JSON.stringify(response.data.data))
           context.commit('setArticleById', response.data.data)
@@ -88,10 +96,18 @@ export default new Vuex.Store({
     addArticle: function (context, payload) {
       let token = localStorage.getItem('token')
 
-      axios.post('http://localhost:3000/article/post', payload, { headers: { token: token } })
+      axios.post('http://35.197.150.118/article/post', payload, { headers: { token: token } })
         .then(function (response) {
           // context.commit('setUser', response.data.user)
-          console.log(response)
+          axios
+            .get('http://35.197.150.118/article')
+            .then(response => {
+              console.log(JSON.stringify(response.data.data))
+              context.commit('setArticles', response.data.data)
+            })
+            .catch((error) => {
+              console.log('error 3 ' + error)
+            })
         })
         .catch(function (error) {
           console.log(error)
@@ -101,7 +117,7 @@ export default new Vuex.Store({
       let token = localStorage.getItem('token')
 
       axios
-        .delete(`http://localhost:3000/article/delete/${payload}`, { headers: { token: token } })
+        .delete(`http://35.197.150.118/article/delete/${payload}`, { headers: { token: token } })
         .then(response => {
           console.log(JSON.stringify(response))
         })
@@ -112,7 +128,7 @@ export default new Vuex.Store({
     editArticle: function (context, payload) {
       let token = localStorage.getItem('token')
 
-      axios.put(`http://localhost:3000/article/edit/${payload.id}`, {
+      axios.put(`http://35.197.150.118/article/edit/${payload.id}`, {
         title: payload.title,
         content: payload.content
       }, { headers: { token: token } })
@@ -126,7 +142,7 @@ export default new Vuex.Store({
     },
     filter: function (context, payload) {
       axios
-        .get(`http://localhost:3000/article/by/${payload}`)
+        .get(`http://35.197.150.118/article/by/${payload}`)
         .then(response => {
           console.log(JSON.stringify(response.data.data))
           context.commit('setArticles', response.data.data)
